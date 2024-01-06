@@ -59,12 +59,10 @@ int main() {
   else
     printf("%s", "no logarithmic bases found!\n \n");
 
+  getchar();
   
-}
+  return 0;
 
-getchar();
-
-return 0;
 }
 ```
 
