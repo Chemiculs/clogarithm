@@ -1,11 +1,11 @@
-#clogarithm
+# clogarithm
 
-##What is clogarithm? 
+## What is clogarithm? 
 clogarithm is A light-weight, cross-platform, header-only C++ library used to resolve all possible logarithmic expressions resulting in the Target value (x) .
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-##What is a logarithm? 
+## What is a logarithm? 
 A logarithm is the inverse function to exponentiation, or the exponent to which a base number must be raised, in order to evaluate to a given value.
 
 for example if i want the logarithmic base 10 (b) of 1000 (x)
