@@ -1,7 +1,11 @@
 # clogarithm
 
 ## What is clogarithm? 
-clogarithm is A light-weight, cross-platform, header-only C++ library used to resolve all possible logarithmic expressions resulting in the Target value (x) .
+
+clogarithm is A light-weight, cross-platform, header-only C++ library used to resolve all possible logarithmic expressions resulting in the Target value (x).
+
+I wrote this with the sole intention of using it for a cryptographic algorithm i am writing, however decided it could be worth a standalone release to potentially save someone else time if they ever require 
+this niche functionality.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14,6 +18,16 @@ for example if i want the logarithmic base 10 (b) of 1000 (x)
 10³, or ( 10 * 10 ) * 10 = 1000
 
 In the above example, 3 is the logarithmic base 10 of 1000 .
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Setup
+
+Simply drag clogarithm.hpp into your CXX project and be sure to import the header: 
+
+```cpp
+#include "/path/to/clogarithm.h" // include c_logarithm.hpp
+```
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,3 +68,7 @@ getchar();
 return 0;
 }
 ```
+
+### And an image of the output: 
+
+![clogarithm output](img/logarithm.png)
