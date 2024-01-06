@@ -1,4 +1,4 @@
-#include "clogarithm.h" // include c_logarithm.hpp
+#include "clogarithm.hpp" // include c_logarithm.hpp
 
 int main() {
 
