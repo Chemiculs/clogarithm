@@ -22,7 +22,7 @@
 
 #pragma endregion
 
-namespace c_logarithm {
+namespace clogarithm {
 
 #pragma region Data Structures
 
@@ -39,7 +39,9 @@ namespace c_logarithm {
 
 #pragma endregion
 
-	class clogarithm {
+	/* Base algorithmic object */
+
+	class clogarithm_t {
 
 	private:
 
@@ -213,7 +215,7 @@ namespace c_logarithm {
 
 #pragma region Ctor / Dtor
 
-		__declspec(noinline) __fastcall clogarithm(std::intptr_t _x = 2) : direction_(true) {
+		__declspec(noinline) __fastcall clogarithm_t(std::intptr_t _x = 2) : direction_(true) {
 
 			try {
 
@@ -222,7 +224,7 @@ namespace c_logarithm {
 			catch (const std::exception& except) { throw except; } // exception should never be thrown here
 		}
 
-		inline __cdecl ~clogarithm() {
+		inline __cdecl ~clogarithm_t() {
 
 			try {
 

@@ -1,0 +1,9 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (cxx_logarithm.vcxproj, c_logarithm.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 163 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  clogarithm.vcxproj -> C:\Users\laneg\source\repos\clogarithm\x64\Release\clogarithm.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

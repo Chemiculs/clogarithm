@@ -10,7 +10,7 @@ int main() {
 
 		scanf_s("%d", &x);
 
-		c_logarithm::clogarithm logarithm_resolver(x); // instantiate the clogarithm object
+		clogarithm::clogarithm_t logarithm_resolver(x); // instantiate the clogarithm object
 
 		auto all_logarithms = logarithm_resolver.find_all_logarithmic_bases(); // resolve all logarithmic base(s) of x
 
