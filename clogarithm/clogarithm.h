@@ -1,3 +1,13 @@
+/*
+/********************************************************************
+*                                                                  *
+*     Highly optimized Logarithmic base finder written in C++      *
+*						 © Lane Graham, 2024                       *
+*     https://github.com/Chemiculs/c_logarithm/tree/master         *
+*                                                                  *
+*********************************************************************
+*/
+
 #ifndef CXX_LOGARITHM_H
 #define CXX_LOGARITHM_H
 
@@ -12,11 +22,11 @@ namespace c_logarithm {
 
 	typedef struct clogarithm_entry_t {
 
-		bool valid;
+		bool valid; // is this a trash return value or is this a valid logarithmic expression of(x) ?
 
-		std::intptr_t base;
+		std::intptr_t base; // output expression base
 
-		std::intptr_t logarithm;
+		std::intptr_t logarithm; // output exponent exponent
 	};
 
 	class clogarithm {
@@ -33,9 +43,9 @@ namespace c_logarithm {
 
 		std::intptr_t iterator_ = 2; // current number to being used as logarithmic baseof(x), cannot be lower than 2
 
-		volatile std::intptr_t x; //target value (x)
+		std::intptr_t x; // target value (x)
 
-		volatile bool direction_; // false = backwards, true = forwards
+		bool direction_; // false = backwards, true = forwards
 
 #pragma endregion
 
@@ -60,36 +70,6 @@ namespace c_logarithm {
 
 #pragma region Accessors
 
-		inline std::size_t __cdecl get_logarithm_failure_count() {
-
-			return logarithm_failure_count_;
-		}
-
-		inline std::size_t __cdecl get_logarithm_success_count() {
-		
-			return logarithm_success_count_;
-		}
-
-		inline std::intptr_t __cdecl get_x() {
-
-			return x;
-		}
-
-		__declspec(noinline) bool __fastcall set_x(intptr_t _x) {
-
-			if (_x == 0)
-				return false;
-
-			x = _x;
-
-			return true;
-		}
-
-		inline void __cdecl swap_direction() {
-
-			direction_ = direction_ ? false : true;
-		}
-
 		inline void __cdecl clear_logarithm_engine() {
 
 			if (logarithms_.size())
@@ -100,6 +80,38 @@ namespace c_logarithm {
 			logarithm_success_count_ = 0;
 
 			iterator_ = 2; // reset base iterator
+		}
+
+		inline std::size_t __cdecl get_logarithm_failure_count() { // failed logarithmic baseof(iterator) found thus far
+
+			return logarithm_failure_count_;
+		}
+
+		inline std::size_t __cdecl get_logarithm_success_count() { // succesful logarithmic baseof(iterator) found thus far
+		
+			return logarithm_success_count_;
+		}
+
+		inline std::intptr_t __cdecl get_x() { // return target result 
+
+			return x;
+		}
+
+		__declspec(noinline) bool __fastcall set_x(intptr_t _x) { // set target expression result
+
+			clear_logarithm_engine();
+
+			if (_x == 0)
+				return false;
+
+			x = _x;
+
+			return true;
+		}
+
+		inline void __cdecl swap_direction() { // true = search forward, false = search backwards
+
+			direction_ = direction_ ? false : true;
 		}
 
 #pragma endregion
@@ -153,7 +165,7 @@ namespace c_logarithm {
 			return std::move(result); // Use perfect forwarding on resulting object
 		}
 
-		const clogarithm_entry_t find_next_logarithmic_base() {
+		inline const clogarithm_entry_t find_next_logarithmic_base() {
 
 			bool hit = false;
 
@@ -169,10 +181,10 @@ namespace c_logarithm {
 				}
 
 				if (iterator_ > ( x / 2 ) ) // 2 is the logarithmic base 2 of 4, however this is, i believe, the only instance where a logarithmic base of a number can reach (or exceed) 50% of X, so increment the point of insanity beyond 50% margin
-					break;
+					break;                  // tl;dr sanity check
 			}
 			
-			return hit ? std::move( logarithms_[ logarithms_.size() - 1 ] ) : clogarithm_entry_t{ false, 0 , 0 };
+			return hit ? std::move( logarithms_[ logarithms_.size() - 1 ] ) : clogarithm_entry_t{ false, 0 , 0 }; // return last entry in the array if successful as this describes the successful logarithmic expression
 		}
 
 		inline std::unique_ptr< std::vector<clogarithm_entry_t> > __cdecl find_all_logarithmic_bases() {
