@@ -1,6 +1,8 @@
 #ifndef CXX_LOGARITHM_H
 #define CXX_LOGARITHM_H
 
+#include <thread>
+#include <chrono>
 #include <cstdint>
 #include <cstddef>
 #include <memory>
@@ -88,6 +90,18 @@ namespace c_logarithm {
 			direction_ = direction_ ? false : true;
 		}
 
+		inline void __cdecl clear_logarithm_engine() {
+
+			if (logarithms_.size())
+				logarithms_.clear();
+
+			logarithm_failure_count_ = 0;
+
+			logarithm_success_count_ = 0;
+
+			iterator_ = 2; // reset base iterator
+		}
+
 #pragma endregion
 
 #pragma region Core Functionality
@@ -107,7 +121,7 @@ namespace c_logarithm {
 			if (exponent != _x)
 				return false;
 
-			if (_logarithm)
+			if (_logarithm != 0)
 				*_logarithm = iteration;
 
 			return true;
@@ -125,67 +139,65 @@ namespace c_logarithm {
 
 			if (!is_logarithmic) {
 
-				do_tick();
+				do_tick(false);
 
 				return clogarithm_entry_t{ false, 0, 0 };
 			}
 
 			clogarithm_entry_t result{ true, iterator_,  std::move(iteration) + 1 };
 
-			logarithms_.push_back(result); // Add this logarithm and it's specificities to the vector
+			logarithms_.push_back(result); // Add this logarithmic expression to the vector
 
 			do_tick(true);
 
 			return std::move(result); // Use perfect forwarding on resulting object
 		}
 
-		inline const clogarithm_entry_t& find_next_logarithmic_base() {
+		const clogarithm_entry_t find_next_logarithmic_base() {
 
-			clogarithm_entry_t result{ false, 0, 0 };
+			bool hit = false;
 
-			while (!(result = try_next_integer()).valid)
-				if (iterator_ > ((x / 2) + 1)) // 2 is the logarithmic base 2 of 4, however this is, i believe, the only instance where a logarithmic base of a number can reach (or exceed) 50% of X, so increment the point of insanity beyond 50% margin
+			clogarithm_entry_t result { false, 0, 0 };
+
+			while (true) {
+
+				result = try_next_integer();
+
+				if (result.valid) {
+					hit = true;
 					break;
+				}
 
-			return std::move(result);
+				if (iterator_ > ( x / 2 ) ) // 2 is the logarithmic base 2 of 4, however this is, i believe, the only instance where a logarithmic base of a number can reach (or exceed) 50% of X, so increment the point of insanity beyond 50% margin
+					break;
+			}
+			
+			return hit ? std::move( logarithms_[ logarithms_.size() - 1 ] ) : clogarithm_entry_t{ false, 0 , 0 };
 		}
 
 		inline std::unique_ptr< std::vector<clogarithm_entry_t> > __cdecl find_all_logarithmic_bases() {
 
-			if (logarithms_.size())
-				logarithms_.clear();
+			clear_logarithm_engine();
 
-			std::vector< clogarithm_entry_t > result{};
+			while (find_next_logarithmic_base().valid)
+				std::this_thread::sleep_for(std::chrono::nanoseconds(1)); // reduce CPU usage 
 
-			std::intptr_t backup_iterator = iterator_;
+			auto _return = logarithms_;
 
-			logarithm_failure_count_ = 0;
-
-			logarithm_success_count_ = 0;
-
-			iterator_ = 2; // reset base iterator
-
-			clogarithm_entry_t _logarithm{ false, 0 , 0 };
-
-			while ((_logarithm = find_next_logarithmic_base()).valid)
-				result.push_back(_logarithm);
-
-			iterator_ = std::move(backup_iterator);
-
-			return std::make_unique<std::vector<clogarithm_entry_t>>(std::move(result));
+			return std::make_unique<std::vector<clogarithm_entry_t>>( _return );
 		}
 
 #pragma endregion
 
 #pragma region Ctor / Dtor
 
-		__declspec(noinline) __fastcall clogarithm(std::intptr_t _x = 0) : direction_(true) {
+		__declspec(noinline) __fastcall clogarithm(std::intptr_t _x = 2) : direction_(true) {
 
 			try {
 
 				set_x(_x);
 			}
-			catch (const std::exception& except) { throw except; } // lol
+			catch (const std::exception& except) { throw except; } // except will never be thrown here
 		}
 
 		inline __cdecl ~clogarithm() {
