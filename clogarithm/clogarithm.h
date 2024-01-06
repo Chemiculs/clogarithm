@@ -11,6 +11,8 @@
 #ifndef CXX_LOGARITHM_H
 #define CXX_LOGARITHM_H
 
+#pragma region Imports
+
 #include <thread>
 #include <chrono>
 #include <cstdint>
@@ -18,7 +20,13 @@
 #include <memory>
 #include <vector>
 
+#pragma endregion
+
 namespace c_logarithm {
+
+#pragma region Data Structures
+
+	/* base structure used to describe a logarithmic expression of(x) */
 
 	typedef struct clogarithm_entry_t {
 
@@ -28,6 +36,8 @@ namespace c_logarithm {
 
 		std::intptr_t logarithm; // output exponent exponent
 	};
+
+#pragma endregion
 
 	class clogarithm {
 
@@ -162,7 +172,7 @@ namespace c_logarithm {
 
 			do_tick(true);
 
-			return std::move(result); // Use perfect forwarding on resulting object
+			return std::move(result); // reference this object as in our return
 		}
 
 		inline const clogarithm_entry_t find_next_logarithmic_base() {
@@ -209,13 +219,17 @@ namespace c_logarithm {
 
 				set_x(_x);
 			}
-			catch (const std::exception& except) { throw except; } // except will never be thrown here
+			catch (const std::exception& except) { throw except; } // exception should never be thrown here
 		}
 
 		inline __cdecl ~clogarithm() {
 
-			if (logarithms_.size())
-				logarithms_.clear();
+			try {
+
+				if (logarithms_.size())
+					clear_logarithm_engine();
+			}
+			catch (const std::exception& except) { throw except; } // exception should never be thrown here
 		}
 
 #pragma endregion

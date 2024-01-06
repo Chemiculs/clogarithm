@@ -2,31 +2,38 @@
 
 int main() {
 
-	intptr_t x = 0; // the target number to resolve logarithmic base(s) for
+	while(true){
 
-	printf("%s", "Please enter a number to find all integral logarithms of:\n");
+		intptr_t x = 0; // the target number to resolve logarithmic base(s) for
 
-	scanf_s("%d", &x);
+		printf("%s", "Please enter a number to find all integral logarithms of:\n");
 
-	c_logarithm::clogarithm logarithm_resolver(x); // instantiate the clogarithm object
+		scanf_s("%d", &x);
 
-	auto all_logarithms = logarithm_resolver.find_all_logarithmic_bases(); // resolve all logarithmic base(s) of x
+		c_logarithm::clogarithm logarithm_resolver(x); // instantiate the clogarithm object
 
-	for (auto& i : *all_logarithms)
-		printf("base: %d, logarithmic exponent: %d\n", (int) i.base, (int) i.logarithm); // clogarithm_entry_t.base is the base of x which we are resolving the logarithmic base of, the logarithmic base of [base] is stored in clogarithm_entry_t.logarithm
+		auto all_logarithms = logarithm_resolver.find_all_logarithmic_bases(); // resolve all logarithmic base(s) of x
 
-	printf("%s", "Please enter a number to find the first logarithmic base of:\n");
+		for (auto& i : *all_logarithms)
+			printf("base: %d, logarithmic exponent: %d\n", (int) i.base, (int) i.logarithm); // clogarithm_entry_t.base is the base of x which we are resolving the logarithmic base of, the logarithmic base of [base] is stored in clogarithm_entry_t.logarithm
 
-	scanf_s("%d", &x);
+		printf("%s", "Please enter a number to find the first logarithmic base of:\n");
 
-	logarithm_resolver.clear_logarithm_engine(); // this needs to be called if you wish to begin searching for logarithms again through the same object after calling find_all_logarithmic_bases()
+		scanf_s("%d", &x);
 
-	auto& first_logarithm = logarithm_resolver.find_next_logarithmic_base(); // find the lowest logarithmic base (iterator) of (x)  
+		logarithm_resolver.clear_logarithm_engine(); // this needs to be called if you wish to begin searching for logarithms again through the same object after calling find_all_logarithmic_bases()
 
-	if (first_logarithm.valid) // did we find a logarithm?
-		printf("base: %d, logarithmic exponent: %d\n", (int)first_logarithm.base, (int)first_logarithm.logarithm);
-	else
-		printf("%s", "no logarithmic bases found!\n");
+		logarithm_resolver.set_x(x); // incase we changed our target for the second test, update target within our resolver
+
+		auto& first_logarithm = logarithm_resolver.find_next_logarithmic_base(); // find the lowest logarithmic base (iterator) of (x)  
+
+		if (first_logarithm.valid) // did we find a logarithm?
+			printf("base: %d, logarithmic exponent: %d\n", (int)first_logarithm.base, (int)first_logarithm.logarithm);
+		else
+			printf("%s", "no logarithmic bases found!\n \n");
+
+		
+	}
 
 	getchar();
 
