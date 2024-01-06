@@ -4,20 +4,19 @@
 
 clogarithm is A light-weight, cross-platform, header-only C++ library used to resolve all possible logarithmic expressions resulting in the Target value (x).
 
-I wrote this with the sole intention of using it for a cryptographic algorithm i am writing, however decided it could be worth a standalone release to potentially save someone else time if they ever require 
-this niche functionality.
+In application to programming and computer science, Logarithm's can be useful in the area's of security and cryptography.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## What is a logarithm? 
-A logarithm is the inverse function to exponentiation, or the exponent to which a base number must be raised, in order to evaluate to a given value.
+## What is a Logarithm? 
+A Logarithm is the inverse function to exponentiation, or the exponent to which a base number must be raised, in order to evaluate to a given value.
 
 for example if i want the logarithmic base 10 (b) of 1000 (x)
 
 10², or ( 10 * 10 ) = 100                           
 10³, or ( 10 * 10 ) * 10 = 1000
 
-In the above example, 3 is the logarithmic base 10 of 1000 .
+In the above example, 3 is the Logarithmic base 10 of 1000 .
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
