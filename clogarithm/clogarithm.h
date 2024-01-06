@@ -2,8 +2,8 @@
 /********************************************************************
 *                                                                  *
 *     Highly optimized Logarithmic base finder written in C++      *
-*						 © Lane Graham, 2024                       *
-*     https://github.com/Chemiculs/c_logarithm/tree/master         *
+*						© Lane Graham, 2024                        *
+*			https://github.com/Chemiculs/clogarithm                *
 *                                                                  *
 *********************************************************************
 */
