@@ -2,19 +2,41 @@
 /********************************************************************
 *                                                                  *
 *     Highly optimized Logarithmic base finder written in C++      *
-*						© Lane Graham, 2024                        *
+*				This object uses C++ exceptions					   *
+*						Â© Lane Graham, 2024                        *
 *			https://github.com/Chemiculs/clogarithm                *
 *                                                                  *
 *********************************************************************
 */
 
+#pragma region Header Guard
+
 #ifndef CXX_LOGARITHM_H
 #define CXX_LOGARITHM_H
 
+#pragma endregion
+
+#pragma region Constants
+
+//i have encountered undefined behavior which i currently haven't had the time to debug when this engine targets the below resulting numbers as X, so we are excluding them from the class at the moment to prevent an infinite loop
+// we are excluding the outlier / exceptional cases of 0, 1, and -1 as being valid logarithms.
+// 0*0 = 0
+// 1*1 = 1
+// -1*1 = -1
+
+
+// X_MIN values are simply added for aesthetic - any number +2 or higher, or -2 and lower will succeed as (X)
+
+#define CLOGARITHM_BASE_B_MIN_POSITIVE 2i8   // minimum positive number capable of fulfilling (b) in a logarithmic function 
+#define CLOGARITHM_X_MIN_POSITIVE 4i8    // minimum positive target (x) bearing a logarithmic base which is not itself
+#define CLOGARITHM_BASE_B_MIN_NEGATIVE -2i8  // minimum negative number capable of fulfilling (b) a logarithmic function
+#define CLOGARITHM_X_MIN_NEGATIVE -4i8       // minimum negative target (x) bearing a logarithmic base which is not itself
+
+#pragma endregion
+
 #pragma region Imports
 
-#include <thread>
-#include <chrono>
+#include <exception>
 #include <cstdint>
 #include <cstddef>
 #include <memory>
@@ -91,7 +113,7 @@ namespace clogarithm {
 
 			logarithm_success_count_ = 0;
 
-			iterator_ = 2; // reset base iterator
+			iterator_ = CLOGARITHM_BASE_B_MIN_POSITIVE; // reset base iterator
 		}
 
 		inline std::size_t __cdecl get_logarithm_failure_count() { // failed logarithmic baseof(iterator) found thus far
@@ -100,7 +122,7 @@ namespace clogarithm {
 		}
 
 		inline std::size_t __cdecl get_logarithm_success_count() { // succesful logarithmic baseof(iterator) found thus far
-		
+
 			return logarithm_success_count_;
 		}
 
@@ -113,8 +135,9 @@ namespace clogarithm {
 
 			clear_logarithm_engine();
 
-			if (_x == 0)
-				return false;
+			if (!((_x <= CLOGARITHM_BASE_B_MIN_NEGATIVE) || (_x >= CLOGARITHM_BASE_B_MIN_POSITIVE)))
+				throw new std::exception("Invalid target(x) specified in logorithm!");
+				
 
 			x = _x;
 
@@ -181,7 +204,7 @@ namespace clogarithm {
 
 			bool hit = false;
 
-			clogarithm_entry_t result { false, 0, 0 };
+			clogarithm_entry_t result{ false, 0, 0 };
 
 			while (true) {
 
@@ -192,11 +215,11 @@ namespace clogarithm {
 					break;
 				}
 
-				if (iterator_ > ( x / 2 ) ) // 2 is the logarithmic base 2 of 4, however this is, i believe, the only instance where a logarithmic base of a number can reach (or exceed) 50% of X, so increment the point of insanity beyond 50% margin
+				if (iterator_ > (x / 2)) // 2 is the logarithmic base 2 of 4, however this is, i believe, the only instance where a logarithmic base of a number can reach (or exceed) 50% of X, so increment the point of insanity beyond 50% margin
 					break;                  // tl;dr sanity check
 			}
-			
-			return hit ? std::move( logarithms_[ logarithms_.size() - 1 ] ) : clogarithm_entry_t{ false, 0 , 0 }; // return last entry in the array if successful as this describes the successful logarithmic expression
+
+			return hit ? std::move(logarithms_[logarithms_.size() - 1]) : clogarithm_entry_t{ false, 0 , 0 }; // return last entry in the array if successful as this describes the successful logarithmic expression
 		}
 
 		inline std::unique_ptr< std::vector<clogarithm_entry_t> > __cdecl find_all_logarithmic_bases() {
@@ -204,11 +227,11 @@ namespace clogarithm {
 			clear_logarithm_engine();
 
 			while (find_next_logarithmic_base().valid)
-				std::this_thread::sleep_for(std::chrono::nanoseconds(1)); // reduce CPU usage 
+				continue;
 
 			auto _return = logarithms_;
 
-			return std::make_unique<std::vector<clogarithm_entry_t>>( _return );
+			return std::make_unique<std::vector<clogarithm_entry_t>>(_return);
 		}
 
 #pragma endregion
