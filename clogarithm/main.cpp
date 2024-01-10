@@ -24,7 +24,7 @@ int main() {
     auto all_logarithms = logarithm_resolver.find_all_logarithmic_bases(); // resolve all logarithmic base(s) of x
 
     for (auto& i : *all_logarithms) // this will output: " base: 10, logarithmic exponent: 6 \n base: 100, logarithmic exponent: 3 \n base: 1000, logarithmic exponent: 2" 
-        printf_s("base: %d, logarithmic exponent: %d\n", (int)i.base, (int)i.logarithm); // clogarithm_entry_t.base is the base of x which we are resolving the logarithmic base of, the logarithmic base of [base] is stored in clogarithm_entry_t.logarithm
+        printf("base: %d, logarithmic exponent: %d\n", (int)i.base, (int)i.logarithm); // clogarithm_entry_t.base is the base of x which we are resolving the logarithmic base of, the logarithmic base of [base] is stored in clogarithm_entry_t.logarithm
 
     logarithm_resolver.clear_logarithm_engine(); // this needs to be called if you wish to begin searching for logarithms again through the same object after calling find_all_logarithmic_bases()
 
@@ -33,9 +33,9 @@ int main() {
     auto& first_logarithm = logarithm_resolver.find_next_logarithmic_base(); // find the lowest logarithmic base (iterator) of (x = 1000000 in our case)  
 
     if (first_logarithm.valid) // did we find a logarithm?
-        printf_s("lowest logarithmic base: %d, logarithmic exponent: %d\n", (int)first_logarithm.base, (int)first_logarithm.logarithm); // this code will execute and print: " base: 10, logarithmic exponent: 6 "
+        printf("lowest logarithmic base: %d, logarithmic exponent: %d\n", (int)first_logarithm.base, (int)first_logarithm.logarithm); // this code will execute and print: " base: 10, logarithmic exponent: 6 "
     else
-        printf_s("%s", "no logarithmic bases found!\n \n");
+        printf("%s", "no logarithmic bases found!\n \n");
 
 
 
@@ -71,7 +71,7 @@ int main() {
         auto all_logarithms = resolver.find_all_logarithmic_bases();
 
         for (auto& logarithm_descriptor : *all_logarithms)
-            printf_s("logarithmic base %d of %d is %d \n", (int)logarithm_descriptor.base, _x, (int)logarithm_descriptor.logarithm);
+            printf("logarithmic base %d of %d is %d \n", (int)logarithm_descriptor.base, _x, (int)logarithm_descriptor.logarithm);
 
         if (_x == UINT16_MAX)
             break;
@@ -83,3 +83,4 @@ int main() {
 
     return 0;
 }
+
